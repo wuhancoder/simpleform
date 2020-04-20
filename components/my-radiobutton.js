@@ -1,0 +1,160 @@
+import { LitElement, css, html } from "lit-element";
+import { render } from "lit-html";
+import MyInput from "./my-input";
+
+// Extend the LitElement base class
+export default class MyRadiobutton extends LitElement {
+  static get styles() {
+    return css`
+      fieldset {
+        background-color: powderblue;
+      }
+
+      legend label {
+        padding: 10px;
+        background: dodgerblue;
+        color: white;
+        min-width: 50px;
+        text-align: center;
+        min-width: 100px;
+        vertical-align: middle;
+      }
+      .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-height: 25px;
+        line-height: 25px;
+      }
+
+      /* Hide the browser's default checkbox */
+      .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      .container:first-of-type {
+        margin-top: 15px;
+      }
+      /* Create a custom checkbox */
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 50%;
+      }
+
+      /* On mouse-over, add a grey background color */
+      .container:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+
+      /* When the checkbox is checked, add a blue background */
+      .container input:checked ~ .checkmark {
+        background-color: #2196f3;
+      }
+
+      /* Create the checkmark/indicator (hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Show the checkmark when checked */
+      .container input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      /* Style the checkmark/indicator */
+      .container .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+      }
+    `;
+  }
+
+  static get properties() {
+    return {
+      type: {
+        type: String,
+      },
+      name: {
+        type: String,
+      },
+      label: {
+        type: String,
+      },
+      datasets: {
+        type: Array,
+        reflect: true,
+      },
+      value: {
+        type: String,
+      },
+    };
+  }
+
+  get value() {
+    return this.shadowRoot.querySelectorAll("input[type=radio]:checked")[0]
+      .value;
+  }
+  constructor() {
+    super();
+    this.datasets = [];
+  }
+
+  firstUpdated(changedProperties) {
+    super.firstUpdated(changedProperties);
+    this.inputEl = this.shadowRoot.querySelector("input");
+    // [...this.shadowRoot.querySelectorAll("input[type=checkbox]")].map((i) =>
+    //   i.addEventListener("click", this.handleChange)
+    // );
+  }
+  renderOptions() {
+    if (typeof this.datasets === "undefined" || this.datasets == "undefined")
+      return html``;
+    else
+      return html`
+        ${this.datasets.map(
+          (i) => html`
+            <label class="container"
+              >${i.option}
+              <input type="radio" name="${this.name}" value="${i.value}" />
+              <span class="checkmark"></span>
+            </label>
+          `
+        )}
+      `;
+  }
+  render() {
+    return html`
+      <div class="input-container">
+        <fieldset>
+          <legend><label>${this.label}</label></legend>
+
+          ${this.renderOptions()}
+        </fieldset>
+      </div>
+      <div class="errors"></div>
+    `;
+  }
+}
+customElements.define("my-radio", MyRadiobutton);
+
+export { MyRadiobutton };

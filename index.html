@@ -1,0 +1,51 @@
+<head>
+  <script type="module" src="components/my-element.js"></script>
+  <script type="module" src="components/my-input.js"></script>
+  <script type="module" src="components/my-form.js"></script>
+  <script type="module" src="components/my-dropdown.js"></script>
+  <script type="module" src="components/my-select.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+</head>
+<body>
+  <my-element id="clock1" message="Hello"></my-element>
+  <my-element id="clock2" message="Hello"></my-element>
+  <my-dropdown label="My first" name="my1"></my-dropdown>
+  <my-select label="My second" name="my2"></my-select>
+
+  <my-input
+    type="text"
+    label="My first"
+    name="my"
+    validations='[{"type":"required"}]'
+  ></my-input>
+
+  <my-input
+    type="password"
+    label="Password"
+    name="myp"
+    myvalidation="true"
+    pattern="[A-Za-z]{3}"
+  ></my-input>
+
+  <my-input
+    type="email"
+    label="Email"
+    name="email"
+    myvalidation="true"
+    pattern=".*\.us"
+  ></my-input>
+
+  <my-form config="test.json" style="width: 500px; display: inline-block;">
+  </my-form>
+
+  <my-form config="form2.json" style="width: 300px; display: inline-block;">
+  </my-form>
+  <my-form config="form3.json" style="width: 300px; display: inline-block;">
+  </my-form>
+
+  <my-form config="form4.json" style="width: 500px; display: inline-block;">
+  </my-form>
+</body>
