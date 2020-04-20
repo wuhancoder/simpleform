@@ -1,9 +1,10 @@
 import { LitElement, css, html } from "lit-element";
 import { render } from "lit-html";
 import MyInput from "./my-input";
+import MyComponent from "./my-component";
 
 // Extend the LitElement base class
-export default class MyRadiobutton extends LitElement {
+export default class MyRadiobutton extends MyComponent {
   static get styles() {
     return css`
       fieldset {
@@ -91,21 +92,9 @@ export default class MyRadiobutton extends LitElement {
 
   static get properties() {
     return {
-      type: {
-        type: String,
-      },
-      name: {
-        type: String,
-      },
-      label: {
-        type: String,
-      },
       datasets: {
         type: Array,
         reflect: true,
-      },
-      value: {
-        type: String,
       },
     };
   }

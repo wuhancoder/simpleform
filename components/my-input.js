@@ -1,8 +1,9 @@
 // Import the LitElement base class and html helper function
 import { LitElement, css, html } from "lit-element";
+import { MyComponent } from "./my-component";
 
 // Extend the LitElement base class
-export default class MyInput extends LitElement {
+export default class MyInput extends MyComponent {
   static get styles() {
     return css`
       :host {
@@ -58,35 +59,6 @@ export default class MyInput extends LitElement {
         color: green;
       }
     `;
-  }
-
-  static get properties() {
-    return {
-      type: {
-        type: String,
-      },
-      name: {
-        type: String,
-      },
-      label: {
-        type: String,
-      },
-      myvalidation: {
-        type: String,
-      },
-      pattern: {
-        type: String,
-      },
-      validations: {
-        type: String,
-      },
-      icon: {
-        type: String,
-      },
-      value: {
-        type: String,
-      },
-    };
   }
 
   constructor() {

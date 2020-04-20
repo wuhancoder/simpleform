@@ -1,9 +1,10 @@
 import { LitElement, css, html } from "lit-element";
 import { render } from "lit-html";
 import MyInput from "./my-input";
+import MyComponent from "./my-component";
 
 // Extend the LitElement base class
-export default class MyCheckbox extends LitElement {
+export default class MyCheckbox extends MyComponent {
   static get styles() {
     return css`
       fieldset {
@@ -93,21 +94,9 @@ export default class MyCheckbox extends LitElement {
 
   static get properties() {
     return {
-      type: {
-        type: String,
-      },
-      name: {
-        type: String,
-      },
-      label: {
-        type: String,
-      },
       datasets: {
         type: Array,
         reflect: true,
-      },
-      value: {
-        type: String,
       },
     };
   }

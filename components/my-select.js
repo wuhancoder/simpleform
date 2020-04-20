@@ -4,23 +4,12 @@ import MyDropdown from "./my-dropdown";
 import MyCheckbox from "./my-checkbox";
 import MyRadiobutton from "./my-radiobutton";
 import { render } from "lit-html";
+import MyComponent from "./my-component";
 
 // Extend the LitElement base class
-export default class MySelect extends LitElement {
+export default class MySelect extends MyComponent {
   static get properties() {
     return {
-      type: {
-        type: String,
-      },
-      name: {
-        type: String,
-      },
-      label: {
-        type: String,
-      },
-      value: {
-        type: String,
-      },
       datasets: {
         type: Array,
       },
