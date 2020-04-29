@@ -119,16 +119,23 @@ export default class MyForm extends LitElement {
       e.preventDefault();
       return false;
     }
-    var fieldValues = allInputs.map((el) => {
-      return { name: el.name, value: el.value };
+    //var fieldValues = allInputs.map((el) => {
+    //  return { name: el.name, value: el.value };
+    //});
+    //confirm(JSON.stringify(fieldValues));
+    var formdata = new FormData();
+    allInputs.forEach((el) => {
+      //confirm(el.name + " : " + el.value);
+      formdata.append(el.name, el.value);
     });
-    confirm(JSON.stringify(fieldValues));
+
     fetch(this.action, {
       method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fieldValues),
+      //  headers: {
+      //   "Content-Type": "application/json",
+      //  },
+      //body: JSON.stringify(fieldValues),
+      body: formdata,
     })
       .then((response) => response.json())
       .then((data) => {
