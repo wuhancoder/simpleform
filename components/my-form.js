@@ -1,6 +1,7 @@
 import { LitElement, css, html } from "lit-element";
 import { MyInput } from "./my-input.js";
 import { MySelect } from "./my-select.js";
+import { MyFile } from "./my-file.js";
 
 export default class MyForm extends LitElement {
   static get styles() {
@@ -90,7 +91,10 @@ export default class MyForm extends LitElement {
           validations="${JSON.stringify(i.validations)}"
         ></my-input>
       </div>`;
-
+    if (i.input === "file")
+      return html` <div class="row">
+        <my-file name="${i.name}" label="${i.label}" type="${i.type}"></my-file>
+      </div>`;
     if (i.input === "select") {
       return html`
         <div class="row">
@@ -107,7 +111,7 @@ export default class MyForm extends LitElement {
 
   submitForm(e) {
     let allInputs = [
-      ...this.shadowRoot.querySelectorAll("my-input, my-select"),
+      ...this.shadowRoot.querySelectorAll("my-input, my-select, my-file"),
     ];
     let valid = allInputs.every((i) => {
       if (i.inputEl && typeof inputEL === "undefined") {
@@ -126,7 +130,9 @@ export default class MyForm extends LitElement {
     var formdata = new FormData();
     allInputs.forEach((el) => {
       //confirm(el.name + " : " + el.value);
-      formdata.append(el.name, el.value);
+      if (el.tagName === "MY-FILE")
+        formdata.append(el.name, el.files[0], el.files[0].name);
+      else formdata.append(el.name, el.value);
     });
 
     fetch(this.action, {
