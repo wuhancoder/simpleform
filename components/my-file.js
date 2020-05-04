@@ -7,7 +7,7 @@ export default class MyFile extends MyComponent {
     return css`
       .fileContainer {
         display: flex;
-        width: 100%;
+        width: 95%;
         margin-bottom: 5px;
         overflow: hidden;
 
