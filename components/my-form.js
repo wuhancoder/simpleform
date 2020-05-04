@@ -8,7 +8,7 @@ export default class MyForm extends LitElement {
     return css`
       :host {
         display: flex;
-        font: 12px Roboto, sans-serif;
+        font: var(--sf-button-font, 12px Roboto, sans-serif);
       }
       .row:after {
         content: "";
@@ -17,8 +17,8 @@ export default class MyForm extends LitElement {
       }
 
       .btn {
-        background-color: dodgerblue;
-        color: white;
+        background-color: var(--sf-button-background, dodgerblue);
+        color: var(---sf-button-color, white);
         padding: 15px 20px;
         border: none;
         cursor: pointer;

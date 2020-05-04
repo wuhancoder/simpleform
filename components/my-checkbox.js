@@ -8,12 +8,12 @@ export default class MyCheckbox extends MyComponent {
   static get styles() {
     return css`
       fieldset {
-        background-color: powderblue;
+        background-color: var(--sf-lavel-background, powderblue);
       }
 
       legend label {
         padding: 10px;
-        background: dodgerblue;
+        background: var(--sf-label-background, dodgerblue);
         color: white;
         min-width: 50px;
         text-align: center;

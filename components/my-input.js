@@ -25,14 +25,14 @@ export default class MyInput extends MyComponent {
 
       .icon {
         padding: 10px;
-        background: dodgerblue;
+        background: var(--sf-label-background, dodgerblue);
         color: white;
         min-width: 50px;
         text-align: center;
       }
       label {
         padding: 10px;
-        background: dodgerblue;
+        background: var(--sf-label-background, dodgerblue);
         color: white;
         min-width: 50px;
         text-align: center;

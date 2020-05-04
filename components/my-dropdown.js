@@ -14,7 +14,7 @@ export default class MyDropdown extends MyComponent {
       }
       label {
         padding: 10px;
-        background: dodgerblue;
+        background: var(--sf-label-background, dodgerblue);
         color: white;
         min-width: 50px;
         text-align: center;

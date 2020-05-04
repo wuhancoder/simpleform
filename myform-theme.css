@@ -1,0 +1,8 @@
+html {
+  --sf-background: #113c66;
+  --sf-button-background: #44c8f5;
+  --sf-button-color: red;
+  --sf-input-color: #333;
+  --sf-button-font: 12px Roboto, sans-serif;
+  --sf-label-background: #44c8f5;
+}
