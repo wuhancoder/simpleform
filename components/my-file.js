@@ -11,8 +11,8 @@ export default class MyFile extends MyComponent {
         margin-bottom: 5px;
         overflow: hidden;
 
-        background: dodgerblue;
-        color: white;
+        background: var(--sf-button-background, dodgerblue);
+        color: var(--sf-button-color, white);
         padding: 10px;
       }
 
