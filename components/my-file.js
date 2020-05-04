@@ -26,6 +26,15 @@ export default class MyFile extends MyComponent {
     `;
   }
 
+  static get properties() {
+    return {
+      multiple: {
+        type: Boolean,
+        reflect: true,
+      },
+    };
+  }
+
   constructor() {
     super();
   }
@@ -37,7 +46,7 @@ export default class MyFile extends MyComponent {
     return html`
       <label class="fileContainer" for="${this.name}">
         ${this.label}
-        <input type="file" id="${this.name}" />
+        <input type="file" id="${this.name}" ?multiple="${this.multiple}" />
       </label>
     `;
   }
