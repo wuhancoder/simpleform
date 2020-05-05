@@ -93,7 +93,12 @@ export default class MyForm extends LitElement {
       </div>`;
     if (i.input === "file")
       return html` <div class="row">
-        <my-file name="${i.name}" label="${i.label}" type="${i.type}"></my-file>
+        <my-file
+          name="${i.name}"
+          label="${i.label}"
+          type="${i.type}"
+          ?multiple="${i.multiple !== "undefined" && i.multiple === "true"}"
+        ></my-file>
       </div>`;
     if (i.input === "select") {
       return html`
@@ -130,9 +135,11 @@ export default class MyForm extends LitElement {
     var formdata = new FormData();
     allInputs.forEach((el) => {
       //confirm(el.name + " : " + el.value);
-      if (el.tagName === "MY-FILE")
-        formdata.append(el.name, el.files[0], el.files[0].name);
-      else formdata.append(el.name, el.value);
+      if (el.tagName === "MY-FILE") {
+        for (var x = 0; x < el.files.length; x++) {
+          formdata.append(el.name, el.files[x], el.files[x].name);
+        }
+      } else formdata.append(el.name, el.value);
     });
 
     fetch(this.action, {
