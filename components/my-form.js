@@ -9,6 +9,12 @@ export default class MyForm extends LitElement {
       :host {
         display: flex;
         font: var(--sf-button-font, 12px Roboto, sans-serif);
+        text-align: left;
+        background: var(--sf-background, white);
+      }
+
+      .row {
+        margin-top: 10px;
       }
       .row:after {
         content: "";
