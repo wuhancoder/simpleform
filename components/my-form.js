@@ -95,6 +95,7 @@ export default class MyForm extends LitElement {
           iconCss="${i.iconCss}"
           type="${i.type}"
           validations="${JSON.stringify(i.validations)}"
+          helptext="${i.helptext}"
         ></my-input>
       </div>`;
     if (i.input === "file")

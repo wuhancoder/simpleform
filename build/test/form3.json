@@ -15,7 +15,8 @@
       "name": "email",
       "input": "text",
       "type": "email",
-      "label": "My Email11"
+      "label": "My Email11",
+      "helptext": "This has to be a valid email"
     }
   ]
 }

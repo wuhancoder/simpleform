@@ -17,6 +17,13 @@ export default class MyInput extends MyComponent {
         margin: 5px 0 0;
         min-height: 15px;
       }
+      .helptext {
+        display: block;
+        font-size: 12px;
+        line-height: 15px;
+        margin: 5px 0 0;
+        min-height: 15px;
+      }
       .input-container {
         display: flex;
         width: 100%;
@@ -143,15 +150,24 @@ export default class MyInput extends MyComponent {
       />
       <div class="input-container">
         ${typeof this.icon === "undefined" || this.icon === "undefined"
-          ? html`<label for="${this.name}">${this.label}</label>`
+          ? html`<label for="${this.name}" id="label_${this.name}"
+              >${this.label}</label
+            >`
           : html`<i class="material-icons icon">${this.icon}</i>`}
         <input
           type="${this.type}"
           id="${this.name}"
           placeholder="${this.label}"
+          aria-label="label_${this.name}"
+          aria-describedby="desc_${this.name}"
         />
         <span></span>
       </div>
+      ${typeof this.helptext === "undefined" || this.helptext === "undefined"
+        ? html``
+        : html`<div id="desc_${this.name}" class="helptext">
+            ${this.helptext}
+          </div>`}
       <div class="errors"></div>
     `;
   }

@@ -28,6 +28,9 @@ export default class MyComponent extends LitElement {
       icon: {
         type: String,
       },
+      helptext: {
+        type: String,
+      },
       value: {
         type: String,
       },
