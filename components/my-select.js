@@ -16,14 +16,28 @@ export default class MySelect extends MyComponent {
     };
   }
   get value() {
+    if (typeof this.inputEL === "undefined") return this.inputEL;
     return this.inputEl.value;
   }
+
   get isValid() {
     return true;
   }
   constructor() {
     super();
     this.datasets = [];
+  }
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener("click", function () {
+      console.log("clicked and firing changed event");
+      var event = new Event("input", {
+        bubbles: true,
+        cancelable: true,
+      });
+
+      this.dispatchEvent(event);
+    });
   }
 
   firstUpdated(changedProperties) {
@@ -32,6 +46,7 @@ export default class MySelect extends MyComponent {
       "my-dropdown, my-checkbox,my-radio"
     );
   }
+
   renderSelection() {
     switch (this.type) {
       case "dropdownlist":
@@ -40,6 +55,8 @@ export default class MySelect extends MyComponent {
             name="${this.name}"
             label="${this.label}"
             datasets="${JSON.stringify(this.datasets)}"
+            aria-label="label_${this.name}"
+            aria-describedby="desc_${this.name}"
           ></my-dropdown>
         `;
       case "checkbox":
@@ -48,6 +65,8 @@ export default class MySelect extends MyComponent {
             name="${this.name}"
             label="${this.label}"
             datasets="${JSON.stringify(this.datasets)}"
+            aria-label="label_${this.name}"
+            aria-describedby="desc_${this.name}"
           ></my-checkbox>
         `;
       case "radio":
@@ -56,6 +75,8 @@ export default class MySelect extends MyComponent {
             name="${this.name}"
             label="${this.label}"
             datasets="${JSON.stringify(this.datasets)}"
+            aria-label="label_${this.name}"
+            aria-describedby="desc_${this.name}"
           ></my-radio>
         `;
     }
@@ -63,6 +84,11 @@ export default class MySelect extends MyComponent {
   render() {
     return html`
       ${this.renderSelection()}
+      ${typeof this.helptext === "undefined" || this.helptext === "undefined"
+        ? html``
+        : html`<div id="desc_${this.name}" class="helptext">
+            ${this.helptext}
+          </div>`}
       <div class="errors"></div>
     `;
   }

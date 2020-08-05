@@ -100,6 +100,12 @@ export default class MyRadiobutton extends MyComponent {
   }
 
   get value() {
+    if (
+      typeof this.shadowRoot.querySelectorAll(
+        "input[type=radio]:checked"
+      )[0] === "undefined"
+    )
+      return "undefined";
     return this.shadowRoot.querySelectorAll("input[type=radio]:checked")[0]
       .value;
   }

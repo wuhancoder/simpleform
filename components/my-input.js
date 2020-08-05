@@ -126,6 +126,12 @@ export default class MyInput extends MyComponent {
   validate() {
     //this.inputEl = this.shadowRoot.querySelector("input");
     this.value = this.inputEl.value;
+    var event = new Event("input", {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    this.dispatchEvent(event);
     //if (!this.inputEl) return;
     console.log(this.inputEl + " this.....   " + this.value);
 

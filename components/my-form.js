@@ -16,6 +16,15 @@ export default class MyForm extends LitElement {
       .row {
         margin-top: 10px;
       }
+
+      .show {
+        display: flex;
+      }
+
+      .hide {
+        display: none;
+      }
+
       .row:after {
         content: "";
         display: table;
@@ -69,10 +78,46 @@ export default class MyForm extends LitElement {
   }
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
+    console.log("firstupdated ");
+    //console.log("calling readConfig ....");
+    //this.readConfig().then((r) => {
+    //  console.log("config read resolved: " + r);
+    //});
+    /*
+    this.fieldsArray
+      .filter(function (e) {
+        return e.condition !== undefined && e.condition !== "undefined";
+      })
+      .map(function (e) {
+        this.addCondition(e);
+      });
+      */
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    console.log("connected callbakc");
     this.readConfig();
   }
 
+  updated(changedProperties) {
+    let thisform = this;
+    super.updated(changedProperties);
+    console.log("updated " + changedProperties);
+    if (changedProperties.has("fieldsArray")) {
+      this.fieldsArray
+        .filter(function (e) {
+          return e.condition !== undefined && e.condition !== "undefined";
+        })
+        .map(function (e) {
+          thisform.addCondition(e);
+        });
+      thisform.redraw();
+    }
+  }
+
   async readConfig() {
+    console.log("retrieving config... ");
     fetch(this.config)
       .then((res) => res.json())
       .then((data) => {
@@ -81,11 +126,148 @@ export default class MyForm extends LitElement {
         this.action = data.action;
         this.fields = data;
         this.fieldsArray = data.fields;
-        console.log(data);
+        console.log("config read ...... " + data);
+        return this.fieldsArray;
       });
   }
 
+  addCondition(e) {
+    let thisform = this;
+    var hideInput = function (event) {
+      thisform.redraw();
+      /*
+      console.log("event target:" + event.target.tagName);
+      if (event.target.dependent !== undefined) {
+        event.target.dependent.map(function (e) {
+          if (!thisform.evaluateCondition(e.condition)) return;
+          let parentRow = e.parentElement;
+          if (
+            parentRow.classList === null ||
+            parentRow.classList === "undefined"
+          ) {
+            parentRow.className = "hide";
+          } else {
+            parentRow.classList.remove("show");
+            parentRow.classList.add("hide");
+          }
+        });
+      }
+      */
+    };
+    let conditionstrings = e.condition.split("=");
+    let conditionArray = conditionstrings[1].split("eq");
+    //let el = this.shadowRoot.getElementById(conditionArray[0].trim());
+    console.log("controlling " + conditionArray[0].trim() + "$$$$$$");
+    let el = this.shadowRoot.querySelector(
+      `[name='${conditionArray[0].trim()}']`
+    );
+    if (el.dependent === undefined) {
+      el.dependent = [];
+    }
+    //el.dependent.push(e);
+    el.dependent.push(this.shadowRoot.querySelector(`[name='${e.name}']`));
+    console.log(
+      " ******** adding event listener to  " +
+        " tag" +
+        el.tagName +
+        " id = " +
+        el.outerHTML
+    );
+
+    el.addEventListener("input", hideInput);
+    if (conditionArray.length < 2) return;
+    if (conditionArray[1].indexOf("'") < 0) {
+      let el2 = this.shadowRoot.querySelector(
+        `[name='${conditionArray[1].trim()}']`
+      );
+      if (el2.dependent === undefined) {
+        el2.dependent = [];
+      }
+      el2.dependent.push(e);
+      el2.addEventListener("input", hideInput);
+    }
+  }
+
+  redraw() {
+    console.log("redraw");
+    let allInputs = [
+      ...this.shadowRoot.querySelectorAll("my-input, my-select, my-file"),
+    ];
+    allInputs.map((x) => {
+      if (typeof x.condition !== "undefined" && x.condition !== "undefined") {
+        let conditionstrings = x.condition.split("=");
+        let showhide = conditionstrings[0];
+        if (!this.evaluateCondition(conditionstrings[1])) {
+          showhide = "showhide".replace(showhide, "");
+        }
+        let parentRow = x.parentElement;
+        if (
+          parentRow.classList === "undefined" ||
+          parentRow.classList === null
+        ) {
+          parentRow.className += showhide;
+        } else {
+          parentRow.classList.remove("hide");
+          parentRow.classList.remove("show");
+          parentRow.classList.add(showhide);
+        }
+
+        // let parentRow = x.parentElement;
+        //console.log("redraw" + x.id + " "+ x.classList);
+        /*
+        if (
+          parentRow.classList === "undefined" ||
+          parentRow.classList === null
+        ) {
+          parentRow.className += "show";
+        } else {
+          parentRow.classList.remove("hide");
+          parentRow.classList.add("show");
+        }
+        */
+      }
+    });
+  }
+
+  evaluateCondition(condition) {
+    console.log("condition:" + condition);
+    let con = condition.split("eq");
+    //console.log(con[1].trim());
+    //let el = document.getElementById(con[0].trim());
+    let el = this.shadowRoot.querySelector(`[name='${con[0].trim()}']`);
+    if (con.length < 2) {
+      console.log(
+        "one control" + !(typeof el.value === "undefined" || el.value === "")
+      );
+      return !(typeof el.value === "undefined" || el.value === "");
+    } else if (con[1].indexOf("'") > 0) {
+      console.log("control + value " + el.value);
+      console.log("'" + el.value + "'" === con[1].trim());
+      //console.log(con[1].trim());
+      if (el.tagName.toLowerCase() === "my-select") {
+        if (typeof el.inputEl === "undefined" || el.inputEl === null) {
+          return false;
+        }
+        if (el.inputEl.tagName.toLowerCase() === "my-checkbox") {
+          return el.inputEl.value
+            .split(",")
+            .map((x) => "'" + x.trim() + "'")
+            .includes(con[1].trim());
+        } else {
+          return "'" + el.inputEl.value + "'" === con[1].trim();
+        }
+      } else return "'" + el.value + "'" === con[1].trim();
+    } else {
+      //let el2 = document.getElementById(con[1].trim());
+      let el2 = this.shadowRoot.querySelector(`[name='${con[1].trim()}']`);
+      console.log("control + 2" + el.value === el2.value);
+      return el.value === el2.value;
+    }
+    return true;
+  }
+
   renderInput(i) {
+    console.log("trying to render element... ");
     if (i.input === "text")
       return html` <div class="row">
         <my-input
@@ -96,6 +278,7 @@ export default class MyForm extends LitElement {
           type="${i.type}"
           validations="${JSON.stringify(i.validations)}"
           helptext="${i.helptext}"
+          condition="${i.condition}"
         ></my-input>
       </div>`;
     if (i.input === "file")
@@ -104,6 +287,8 @@ export default class MyForm extends LitElement {
           name="${i.name}"
           label="${i.label}"
           type="${i.type}"
+          helptext="${i.helptext}"
+          condition="${i.condition}"
           ?multiple="${i.multiple !== "undefined" && i.multiple === "true"}"
         ></my-file>
       </div>`;
@@ -114,6 +299,8 @@ export default class MyForm extends LitElement {
             name="${i.name}"
             label="${i.label}"
             type="${i.type}"
+            helptext="${i.helptext}"
+            condition="${i.condition}"
             datasets="${JSON.stringify(i.options)}"
           ></my-select>
         </div>
@@ -169,6 +356,7 @@ export default class MyForm extends LitElement {
   }
 
   render() {
+    console.log("in rendering... ");
     return html`
       <form
         method="POST"

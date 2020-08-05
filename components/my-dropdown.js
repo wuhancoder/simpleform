@@ -55,7 +55,8 @@ export default class MyDropdown extends MyComponent {
   }
 
   get value() {
-    return true;
+    //return true;
+    return this.inputEl.options[this.inputEl.selectedIndex].value;
   }
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
