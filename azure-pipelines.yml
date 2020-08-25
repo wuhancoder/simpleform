@@ -26,6 +26,7 @@ steps:
     SourcePath: '$(Build.SourcesDirectory)/build'
     Destination: AzureBlob
     azureSubscription: IT-Stg-FormService
+    storageAccountName: 'stgappformservice'
     containerName: '$web'
 
 
