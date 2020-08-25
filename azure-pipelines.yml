@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 steps:
 - task: NodeTool@0
@@ -25,4 +25,7 @@ steps:
   inputs:
     SourcePath: '$(Build.SourcesDirectory)/build'
     Destination: AzureBlob
-    azureSubscription: 
+    azureSubscription: IT-Stg-FormService
+    containerName: '$web'
+
+
