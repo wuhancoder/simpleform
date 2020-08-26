@@ -23,7 +23,7 @@ steps:
 
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: '$(Build.SourcesDirectory)/build'
+    SourcePath: '$(Build.SourcesDirectory)/build/*'
     Destination: AzureBlob
     azureSubscription: IT-Stg-FormService
     storage: 'stgappformservice'
