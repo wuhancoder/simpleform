@@ -53,7 +53,11 @@ export default class MyDropdown extends MyComponent {
     super();
     this.datasets = [];
   }
-
+  set value(newVal) {
+    if (newVal === null) {
+      this.inputEl.selectedIndex = 0;
+    }
+  }
   get value() {
     //return true;
     return this.inputEl.options[this.inputEl.selectedIndex].value;

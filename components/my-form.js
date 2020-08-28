@@ -188,6 +188,17 @@ export default class MyForm extends LitElement {
     }
   }
 
+  resetForm() {
+    console.log("reset form");
+    let allInputs = [
+      ...this.shadowRoot.querySelectorAll("my-input, my-select, my-file"),
+    ];
+    allInputs.map((x) => {
+      x.inputEl.value = null;
+    });
+    this.redraw();
+  }
+
   redraw() {
     console.log("redraw");
     let allInputs = [
@@ -333,7 +344,9 @@ export default class MyForm extends LitElement {
         for (var x = 0; x < el.files.length; x++) {
           formdata.append(el.name, el.files[x], el.files[x].name);
         }
-      } else formdata.append(el.name, el.value);
+      } else if (el.tagName === "MY-SELECT")
+        formdata.append(el.name, el.inputEl.value);
+      else formdata.append(el.name, el.value);
     });
 
     fetch(this.action, {
@@ -347,6 +360,8 @@ export default class MyForm extends LitElement {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        confirm("Form submitted. Thank you!" + data);
+        this.resetForm();
       })
       .catch((error) => {
         console.error("Error:", error);

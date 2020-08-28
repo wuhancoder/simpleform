@@ -98,7 +98,13 @@ export default class MyRadiobutton extends MyComponent {
       },
     };
   }
-
+  set value(newVal){
+    if (newVal ===null){
+      this.shadowRoot.querySelectorAll(
+        "input[type=radio]:checked"
+      )[0].checked = false;
+    }
+  }
   get value() {
     if (
       typeof this.shadowRoot.querySelectorAll(

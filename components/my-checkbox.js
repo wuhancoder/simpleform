@@ -100,7 +100,15 @@ export default class MyCheckbox extends MyComponent {
       },
     };
   }
-
+  set value(newVal) {
+    if (newVal === null) {
+      Array.from(
+        this.shadowRoot.querySelectorAll("input[type=checkbox]:checked")
+      ).map((x) => {
+        x.checked = false;
+      });
+    }
+  }
   get value() {
     return [...this.shadowRoot.querySelectorAll("input[type=checkbox]:checked")]
       .map((i) => {
