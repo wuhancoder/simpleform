@@ -357,7 +357,7 @@ export default class MyForm extends LitElement {
       //body: JSON.stringify(fieldValues),
       body: formdata,
     })
-      .then((response) => response.json())
+      //.then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
         confirm("Form submitted. Thank you!" + data);
