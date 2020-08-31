@@ -20,6 +20,10 @@ export default class MyForm extends LitElement {
       .show {
         display: block;
       }
+      .formtitle {
+        font-size: var(--sf-form-title-font-size, 2.5rem);
+        display: var(--sf-form-title-display, block);
+      }
 
       .hide {
         display: none;
@@ -49,6 +53,10 @@ export default class MyForm extends LitElement {
   static get properties() {
     return {
       name: {
+        type: String,
+        reflect: true,
+      },
+      id: {
         type: String,
         reflect: true,
       },
@@ -123,6 +131,7 @@ export default class MyForm extends LitElement {
       .then((data) => {
         this.submit = data.submit;
         this.name = data.name;
+        this.id = data.id;
         this.action = data.action;
         this.fields = data;
         this.fieldsArray = data.fields;
@@ -360,7 +369,7 @@ export default class MyForm extends LitElement {
       //.then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        confirm("Form submitted. Thank you!" + data);
+        confirm("Form submitted. Thank you!");
         this.resetForm();
       })
       .catch((error) => {
@@ -375,9 +384,11 @@ export default class MyForm extends LitElement {
     return html`
       <form
         method="POST"
-        id="${this.name ? this.name : ""}"
+        id="${this.id ? this.id : ""}"
+        name="${this.name ? this.name : ""}"
         action="${this.action ? this.action : ""}"
       >
+        <h1 class="formtitle">${this.name}</h1>
         ${this.fieldsArray ? this.fieldsArray.map(this.renderInput) : ""}
         <div class="row">
           <button type="submit" @click="${this.submitForm}" class="btn">

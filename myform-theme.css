@@ -1,6 +1,8 @@
 html {
   --sf-form-background: white;
   --sf-form-border: #e0e0e0;
+  --sf-form-title-font-size: 2.5rem;
+  --sf-form-title-display: block;
   --sf-background: white;
   --sf-button-background: #00447c;
   --sf-button-color: white;
