@@ -1,0 +1,186 @@
+{
+  "name": "Another form 4",
+  "action": "http://localhost:8088/",
+  "submit": "Register",
+  "fields": [
+    {
+      "name": "email2",
+      "input": "text",
+      "type": "email",
+
+      "label": "Your Email Address",
+      "helptext": "Please enter a valid email"
+    },
+
+    {
+      "name": "email",
+      "input": "text",
+      "type": "email",
+      "label": "My Email11"
+    },
+    {
+      "name": "text1",
+      "input": "text",
+      "type": "text",
+      "label": "hide=email2",
+      "condition": "hide=email2"
+    },
+    {
+      "name": "text2",
+      "input": "text",
+      "type": "text",
+      "label": "show=email2 eq email",
+      "condition": "show=email2 eq email"
+    },
+    {
+      "name": "text3",
+      "input": "text",
+      "type": "text",
+      "label": "controlled 3",
+      "condition": "show=email eq '1@2.com'"
+    },
+    {
+      "name": "selection",
+      "input": "select",
+      "type": "radio",
+      "label": "Please make a selection",
+      "helptext": "Choose hello please",
+      "options": [
+        {
+          "option": "Please make a selection",
+          "value": "0"
+        },
+        {
+          "option": "This is so cool",
+          "value": "1"
+        },
+        {
+          "option": "thank you",
+          "value": "2"
+        },
+        {
+          "option": "hello",
+          "value": "3"
+        }
+      ],
+      "validations": [
+        {
+          "type": "required"
+        },
+        {
+          "type": "pattern",
+          "expression": "123456"
+        }
+      ]
+    },
+    {
+      "name": "text3",
+      "input": "text",
+      "type": "text",
+      "label": "show=selecion eq 'thank you'",
+      "condition": "show=selection eq '2'"
+    },
+    {
+      "name": "selection2",
+      "input": "select",
+      "type": "checkbox",
+      "label": "checkbox should be hidden",
+      "condition": "show=selection eq '3'",
+      "options": [
+        {
+          "option": "Please make a selection",
+          "value": "0"
+        },
+        {
+          "option": "This is so cool",
+          "value": "1"
+        },
+        {
+          "option": "thank you",
+          "value": "2"
+        },
+        {
+          "option": "hello",
+          "value": "3"
+        }
+      ],
+      "validations": [
+        {
+          "type": "required"
+        },
+        {
+          "type": "pattern",
+          "expression": "123456"
+        }
+      ]
+    },
+    {
+      "name": "text4",
+      "input": "text",
+      "type": "text",
+      "label": "show=selection2 eq 'thank you'",
+      "condition": "show=selection2 eq '2'"
+    },
+    {
+      "name": "selection3",
+      "input": "select",
+      "type": "dropdownlist",
+      "label": "dropdown",
+      "options": [
+        {
+          "option": "Please make a selection",
+          "value": "0"
+        },
+        {
+          "option": "This is so cool",
+          "value": "1"
+        },
+        {
+          "option": "thank you",
+          "value": "2"
+        },
+        {
+          "option": "hello",
+          "value": "3"
+        }
+      ],
+      "validations": [
+        {
+          "type": "required"
+        },
+        {
+          "type": "pattern",
+          "expression": "123456"
+        }
+      ]
+    },
+    {
+      "name": "text5",
+      "input": "text",
+      "type": "text",
+      "label": "show=selection3 eq 'thank you'",
+      "condition": "show=selection3 eq '2'"
+    },
+    {
+      "name": "password",
+      "input": "text",
+      "type": "password",
+      "label": "My Password11",
+      "validations": [
+        {
+          "type": "required"
+        },
+        {
+          "type": "pattern",
+          "expression": "123456"
+        }
+      ]
+    },
+    {
+      "name": "documents",
+      "input": "file",
+      "label": "Please upload any supporting attachments (images) here",
+      "multiple": "true"
+    }
+  ]
+}

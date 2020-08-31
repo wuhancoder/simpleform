@@ -9,28 +9,34 @@ export default class MyDropdown extends MyComponent {
     return css`
       .input-container {
         display: flex;
+        flex-direction: var(--sf-input-flex-direction, row);
         width: 100%;
         margin-bottom: 5px;
       }
       label {
-        padding: 10px;
+        padding: var(--sf-label-padding, 10px);
         background: var(--sf-label-background, dodgerblue);
-        color: white;
+        dislay: var(--sf-label-display, flex);
+        color: var(--sf-label-color, white);
         min-width: 50px;
-        text-align: center;
+        text-align: var(--sf-label-text-align, center);
         min-width: 100px;
+        font-weight: var(--sf-label-font-weight, 700);
+        font-size: var(--sf-label-font-size, 1rem);
       }
 
       select {
-        width: 100%;
+        width: 95%;
         padding: 5px 35px 5px 5px;
-        border: 1px solid powderblue;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
         -webkit-border-radius: 0;
-        border-radius: 0;
-        background-color: powderblue;
+        background-color: var(--sf-input-background, powderblue);
+        border-color: var(--sf-input-border-color, gray);
+        border-radius: var(--sf-input-border-radius, 0);
+        box-sizing: border-box;
+        border-width: var(--sf-input-border-width, 1px);
       }
 
       /* CAUTION: IE hackery ahead */

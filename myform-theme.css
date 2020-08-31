@@ -1,10 +1,40 @@
 html {
+  --sf-form-background: white;
+  --sf-form-border: #e0e0e0;
   --sf-background: white;
-  --sf-button-background: #44c8f5;
-  --sf-button-color: red;
-  --sf-input-color: #333;
-  --sf-button-font: 12px Roboto, sans-serif;
-  --sf-label-background: #44c8f5;
+  --sf-button-background: #00447c;
+  --sf-button-color: white;
 
-  /**hennepin background: #113c66*/
+  --sf-button-font: 12px Roboto, sans-serif;
+
+  --sf-input-flex-direction: column;
+  --sf-input-color: #333;
+  --sf-input-border-color: #cfcfcf;
+  --sf-input-background: white;
+  --sf-input-placeholder: white;
+  --sf-input-border-radius: 4px;
+  --sf-input-border-width: 1px;
+  --sf-input-border-style: solid;
+
+  /* --sf-label-background: #44c8f5; */
+  --sf-label-display: block;
+  --sf-label-color: #555;
+  --sf-label-background: white;
+  --sf-label-text-align: left;
+  --sf-label-font-size: 0.8rem;
+  --sf-label-font-weight: 700;
+  --sf-label-padding: 0px;
+
+  --sf-checkbox-background: white; /*used by both checkbox and radiobutton*/
+  --sf-checkbox-size: 25px;
+  --sf-checkbox-hover: #ccc;
+  --sf-checkbox-checked: #2196f3;
+
+  /**hennepin background: #113c66* --sf-input-border: #cfcfcf; 
+    --sf-checkbox-background:white; 
+    --sf-checkbox-size: 25px;
+    --sf-checkbox-hover:#ccc;
+    --sf-checkbox-checked:#2196f3;
+  
+  */
 }

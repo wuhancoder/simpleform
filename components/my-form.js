@@ -18,7 +18,7 @@ export default class MyForm extends LitElement {
       }
 
       .show {
-        display: flex;
+        display: block;
       }
 
       .hide {
@@ -33,16 +33,16 @@ export default class MyForm extends LitElement {
 
       .btn {
         background-color: var(--sf-button-background, dodgerblue);
-        color: var(---sf-button-color, white);
+        color: var(--sf-button-color, white);
         padding: 15px 20px;
         border: none;
         cursor: pointer;
-        width: 100%;
-        opacity: 0.9;
+        margin-top: 10px;
+        opacity: 1;
       }
 
       .btn:hover {
-        opacity: 1;
+        opacity: 0.9;
       }
     `;
   }
@@ -379,9 +379,11 @@ export default class MyForm extends LitElement {
         action="${this.action ? this.action : ""}"
       >
         ${this.fieldsArray ? this.fieldsArray.map(this.renderInput) : ""}
-        <button type="submit" @click="${this.submitForm}" class="btn">
-          ${this.submit}
-        </button>
+        <div class="row">
+          <button type="submit" @click="${this.submitForm}" class="btn">
+            ${this.submit}
+          </button>
+        </div>
       </form>
     `;
   }

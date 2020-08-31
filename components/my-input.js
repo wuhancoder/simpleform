@@ -26,6 +26,7 @@ export default class MyInput extends MyComponent {
       }
       .input-container {
         display: flex;
+        flex-direction: var(--sf-input-flex-direction, row);
         width: 100%;
         margin-bottom: 5px;
       }
@@ -38,23 +39,33 @@ export default class MyInput extends MyComponent {
         text-align: center;
       }
       label {
-        padding: 10px;
+        padding: var(--sf-label-padding, 10px);
         background: var(--sf-label-background, dodgerblue);
-        color: white;
+        color: var(--sf-label-color, white);
         min-width: 50px;
-        text-align: center;
+        text-align: var(--sf-label-text-align, center);
         min-width: 100px;
+        display: var(--sf-label-display, flex);
+        font-size: var(--sf-label-font-size, 1rem);
+        font-weight: var(--sf-label-font-weight, 700);
       }
 
       input {
         width: 95%;
         padding: 10px;
         outline: none;
+        border-color: var(--sf-input-border-color, gray);
+        border-radius: var(--sf-input-border-radius, 4px);
+        border-width: var(--sf-input-border-width, 1px);
+        box-sizing: border-box;
+        flex-basis: 95%;
       }
-
+      ::placeholder {
+        color: var(--sf-input-placeholder, gray);
+      }
       input:placeholder-shown,
       input:valid {
-        background-color: powderblue;
+        background-color: var(--sf-input-background, powderblue);
       }
 
       input:not(:placeholder-shown):invalid + span::before {
@@ -160,14 +171,16 @@ export default class MyInput extends MyComponent {
               >${this.label}</label
             >`
           : html`<i class="material-icons icon">${this.icon}</i>`}
-        <input
-          type="${this.type}"
-          id="${this.name}"
-          placeholder="${this.label}"
-          aria-label="label_${this.name}"
-          aria-describedby="desc_${this.name}"
-        />
-        <span></span>
+        <div>
+          <input
+            type="${this.type}"
+            id="${this.name}"
+            placeholder="${this.label}"
+            aria-label="label_${this.name}"
+            aria-describedby="desc_${this.name}"
+          />
+          <span></span>
+        </div>
       </div>
       ${typeof this.helptext === "undefined" || this.helptext === "undefined"
         ? html``

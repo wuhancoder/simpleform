@@ -8,17 +8,25 @@ export default class MyCheckbox extends MyComponent {
   static get styles() {
     return css`
       fieldset {
-        background-color: var(--sf-lavel-background, powderblue);
+        background-color: var(--sf-form-background, powderblue);
+        border-color: var(--sf-input-border-color, gray);
+        border-radius: var(--sf-input-border-radius, 4px);
+        border-width: var(--sf-input-border-width, 1px);
+        box-sizing: border-box;
+        width: 95%;
       }
 
       legend label {
         padding: 10px;
         background: var(--sf-label-background, dodgerblue);
-        color: white;
+        dislay: var(--sf-label-display, flex);
+        color: var(--sf-label-color, white);
         min-width: 50px;
-        text-align: center;
+        text-align: var(--sf-label-text-align, center);
         min-width: 100px;
         vertical-align: middle;
+        font-weight: var(--sf-label-font-weight, 700);
+        font-size: var(--sf-label-font-size, 1rem);
       }
       .container {
         display: block;
@@ -50,19 +58,23 @@ export default class MyCheckbox extends MyComponent {
         position: absolute;
         top: 0;
         left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
+        height: var(--sf-checkbox-size, 25px);
+        width: var(--sf-checkbox-size, 25px);
+        background-color: var(--sf-checkbox-background, #eee);
+        border-color: var(--sf-input-border-color, gray);
+        border-radius: var(--sf-input-border-radius, 4px);
+        border-width: var(--sf-input-border-width, 1px);
+        border-style: var(--sf-input-border-style, solid);
       }
 
       /* On mouse-over, add a grey background color */
       .container:hover input ~ .checkmark {
-        background-color: #ccc;
+        background-color: var(--sf-checkbox-hover, #ccc);
       }
 
       /* When the checkbox is checked, add a blue background */
       .container input:checked ~ .checkmark {
-        background-color: #2196f3;
+        background-color: var(--sf-checkbox-checked, #2196f3);
       }
 
       /* Create the checkmark/indicator (hidden when not checked) */

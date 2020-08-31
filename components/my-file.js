@@ -6,14 +6,16 @@ export default class MyFile extends MyComponent {
   static get styles() {
     return css`
       .fileContainer {
-        display: flex;
-        width: 95%;
         margin-bottom: 5px;
         overflow: hidden;
 
         background: var(--sf-button-background, dodgerblue);
         color: var(--sf-button-color, white);
-        padding: 10px;
+        padding: 10px 20px;
+        opacity: 1;
+      }
+      .fileContainer:hover {
+        opacity: 0.9;
       }
 
       .fileContainer [type="file"] {
@@ -22,6 +24,11 @@ export default class MyFile extends MyComponent {
         filter: alpha(opacity=0);
 
         opacity: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
       }
     `;
   }
