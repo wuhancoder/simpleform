@@ -5,14 +5,14 @@
   "main": "index.js",
   "repository": "PolymerLabs/lit-element-build-rollup",
   "scripts": {
-    "copyindex": "cp index.html build",
+    "copyindex": "cp *.html build && cp myform-theme.css build",
     "copywc": "cp -r node_modules/@webcomponents/webcomponentsjs/bundles build && cp node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js build",
     "build": "rm -rf build && mkdir build && npm run copyindex && npm run copywc && rollup -c",
     "start": "serve build",
-    "test": "cp myform-theme.css build && cp -r test build && serve build"
+    "test": "cp -r test build && serve build"
   },
-  "author": "The Polymer Authors",
-  "license": "BSD-3-Clause",
+  "author": "Yulin Yin",
+  "license": "",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
