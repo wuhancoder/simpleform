@@ -66,6 +66,7 @@ export default class MyForm extends LitElement {
       },
       fields: {
         type: String,
+        reflect: true,
       },
       config: {
         type: String,
@@ -80,6 +81,14 @@ export default class MyForm extends LitElement {
         reflect: true,
       },
     };
+  }
+
+  set fields(newVal) {
+    try {
+      this.fieldsArray = JSON.parse(newVal);
+    } catch (e) {
+      console.log("error occured:" + e);
+    }
   }
   constructor() {
     super();

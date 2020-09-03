@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <style>
+      #container {
+        display: flex;
+        flex-direction: row;
+      }
+      .child {
+        flex-grow: 1;
+        flex-basis: 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="myform-theme.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="render" class="child">
+        <my-form config="/test/form4.json"> </my-form>
+      </div>
+      <div id="config" class="child">
+        <form
+          id="formconfig"
+          method="POST"
+          action="https://localhost:5050/formconfig"
+        >
+          <label>Configue</label>
+          <textarea
+            id="configure"
+            cols="80"
+            rows="50"
+            form="formconfig"
+            name="configure"
+          ></textarea>
+          <button id="save" disabled>Save Changes</button>
+        </form>
+      </div>
+    </div>
+    <script language="javascript">
+      (function () {
+        let config = document
+          .getElementsByTagName("my-form")[0]
+          .getAttribute("config");
+        console.log(config);
+        fetch(config)
+          .then((response) => response.text())
+          .then(
+            (text) => (document.getElementById("configure").textContent = text)
+          );
+
+        document
+          .getElementById("configure")
+          .addEventListener("input", function (evt) {
+            try {
+              let formConfig = JSON.parse(evt.target.value);
+              let formElement = document.getElementsByTagName("my-form")[0];
+              formElement.setAttribute("name", formConfig.name);
+              formElement.setAttribute("submit", formConfig.submit);
+              formElement.setAttribute("action", formConfig.action);
+              formElement.setAttribute(
+                "fields",
+                JSON.stringify(formConfig.fields)
+              );
+              formElement.setAttribute("id", formConfig.id);
+            } catch (e) {
+              console.log(e);
+            }
+          });
+
+        document
+          .getElementById("configure")
+          .addEventListener("change", function (evt) {
+            document.getElementById("save").disabled = false;
+          });
+
+        document
+          .getElementById("save")
+          .addEventListener("click", function (evt) {
+            let formElement = document.getElementById("formconfig");
+
+            formElement.submit();
+          });
+      })();
+    </script>
+  </body>
+</html>
