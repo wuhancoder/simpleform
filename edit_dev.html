@@ -1,0 +1,136 @@
+<html>
+  <head>
+    <style>
+      #container {
+        display: flex;
+        flex-direction: row;
+      }
+      .child {
+        flex-grow: 1;
+        flex-basis: 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="myform-theme.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="render" class="child">
+        <select id="selectConfig"></select>
+        <!--- <my-form config="https://localhost:5050/formconfig/sample"> </my-form> -->
+      </div>
+      <div id="config" class="child">
+        <form id="formconfig" method="POST">
+          <label>Configue</label>
+          <textarea
+            id="configure"
+            cols="80"
+            rows="50"
+            form="formconfig"
+            name="configure"
+          ></textarea>
+          <button id="save" disabled>Save Changes</button>
+        </form>
+      </div>
+    </div>
+    <script language="javascript">
+      (function () {
+        const formservice = "https://localhost:5050/formconfig";
+        document
+          .getElementById("formconfig")
+          .setAttribute("action", formservice);
+        let dropdown = document.getElementById("selectConfig");
+        dropdown.length = 0;
+
+        let defaultOption = document.createElement("option");
+        defaultOption.text = "Choose a form";
+
+        dropdown.appendChild(defaultOption);
+        dropdown.selectedIndex = 0;
+
+        const url = formservice + "/list";
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            data.map((x) => {
+              if (typeof x.version !== "undefined") {
+                option = document.createElement("option");
+                option.text = x.name + " - " + x.id + " - " + x.version;
+                option.value = x.id + "/" + x.version;
+              } else {
+                option = document.createElement("option");
+                option.text = x.name + " - " + x.id;
+                option.value = x.id;
+              }
+
+              dropdown.appendChild(option);
+            });
+          });
+        dropdown.addEventListener("change", function (e) {
+          let myform = document.getElementsByTagName("my-form")[0];
+          let parent = document.getElementById("render");
+          if (myform !== null && typeof myform !== "undefined") {
+            parent.removeChild(myform);
+          }
+
+          let newform = document.createElement("my-form");
+          let newconfig = "https://localhost:5050/formconfig/" + this.value;
+          newform.config = newconfig;
+
+          parent.appendChild(newform);
+          //let config = document
+          //  .getElementsByTagName("my-form")[0]
+          //  .getAttribute("config");
+          //console.log(config);
+          fetch(newconfig)
+            .then((response) => response.text())
+            .then(
+              (text) =>
+                (document.getElementById(
+                  "configure"
+                ).innerHTML = JSON.stringify(JSON.parse(text), null, 4))
+            );
+        });
+
+        document
+          .getElementById("configure")
+          .addEventListener("input", function (evt) {
+            try {
+              let formConfig = JSON.parse(evt.target.value);
+              let formElement = document.getElementsByTagName("my-form")[0];
+              formElement.setAttribute("name", formConfig.name);
+              formElement.setAttribute("submit", formConfig.submit);
+              formElement.setAttribute("action", formConfig.action);
+              formElement.setAttribute(
+                "fields",
+                JSON.stringify(formConfig.fields)
+              );
+              formElement.setAttribute("id", formConfig.id);
+            } catch (e) {
+              console.log(e);
+            }
+          });
+
+        document
+          .getElementById("configure")
+          .addEventListener("change", function (evt) {
+            document.getElementById("save").disabled = false;
+          });
+
+        document
+          .getElementById("save")
+          .addEventListener("click", function (evt) {
+            let formElement = document.getElementById("formconfig");
+
+            formElement.submit();
+          });
+      })();
+    </script>
+  </body>
+</html>

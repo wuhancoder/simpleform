@@ -64,12 +64,16 @@ export default class MyForm extends LitElement {
         type: String,
         reflect: true,
       },
+      version: {
+        type: String,
+      },
       fields: {
         type: String,
         reflect: true,
       },
       config: {
         type: String,
+        reflect: true,
       },
       fieldsArray: {
         type: Array,
@@ -141,7 +145,15 @@ export default class MyForm extends LitElement {
         this.submit = data.submit;
         this.name = data.name;
         this.id = data.id;
-        this.action = data.action;
+        this.version = data.version;
+
+        if (
+          data.version === null ||
+          data.version === "" ||
+          typeof data.version === "undefined"
+        )
+          this.action = data.action;
+        else this.action = data.action + "/" + data.version;
         this.fields = data;
         this.fieldsArray = data.fields;
         console.log("config read ...... " + data);
