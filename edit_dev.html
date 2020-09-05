@@ -36,11 +36,52 @@
             name="configure"
           ></textarea>
           <button id="save" disabled>Save Changes</button>
+          <button id="delete">Delete</button>
         </form>
       </div>
     </div>
     <script language="javascript">
       (function () {
+        function refresh() {
+          document
+            .getElementById("formconfig")
+            .setAttribute("action", formservice);
+          let dropdown = document.getElementById("selectConfig");
+          dropdown.length = 0;
+
+          let defaultOption = document.createElement("option");
+          defaultOption.text = "Choose a form";
+
+          dropdown.appendChild(defaultOption);
+          let optionsCount = 2;
+          const url = formservice + "/list";
+          fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+              optionsCount = data.length;
+              data.map((x) => {
+                if (typeof x.version !== "undefined") {
+                  option = document.createElement("option");
+                  option.text = x.name + " - " + x.id + " - " + x.version;
+                  option.value = x.id + "/" + x.version;
+                } else {
+                  option = document.createElement("option");
+                  option.text = x.name + " - " + x.id;
+                  option.value = x.id;
+                }
+
+                dropdown.appendChild(option);
+              });
+            })
+            .then(() => {
+              dropdown.selectedIndex = 0;
+              let parent = document.getElementById("render");
+              let formElement = document.getElementsByTagName("my-form")[0];
+              parent.removeChild(formElement);
+              document.getElementById("configure").value = "";
+            });
+        }
+
         const formservice = "https://localhost:5050/formconfig";
         document
           .getElementById("formconfig")
@@ -90,12 +131,18 @@
           //console.log(config);
           fetch(newconfig)
             .then((response) => response.text())
-            .then(
-              (text) =>
-                (document.getElementById(
-                  "configure"
-                ).innerHTML = JSON.stringify(JSON.parse(text), null, 4))
-            );
+            .then((text) => {
+              document.getElementById("configure").innerHTML = JSON.stringify(
+                JSON.parse(text),
+                null,
+                4
+              );
+              document.getElementById("configure").value = JSON.stringify(
+                JSON.parse(text),
+                null,
+                4
+              );
+            });
         });
 
         document
@@ -126,9 +173,35 @@
         document
           .getElementById("save")
           .addEventListener("click", function (evt) {
-            let formElement = document.getElementById("formconfig");
+            //let formElement = document.getElementById("formconfig");
 
-            formElement.submit();
+            //formElement.submit();
+            fetch(formservice, {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              mode: "no-cors",
+              body: JSON.stringify(
+                JSON.parse(document.getElementById("configure").value)
+              ),
+            })
+              .then((response) => response.text())
+              .then((text) => refresh());
+            evt.preventDefault();
+          });
+
+        document
+          .getElementById("delete")
+          .addEventListener("click", function (evt) {
+            let configToDelete = document.getElementById("selectConfig").value;
+            fetch(formservice + "/" + configToDelete, {
+              method: "delete",
+            })
+              .then((response) => response.text())
+              .then((text) => refresh());
+            evt.preventDefault();
           });
       })();
     </script>
