@@ -1,6 +1,6 @@
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #container {
         display: flex;
@@ -92,7 +92,7 @@
         dropdown.length = 0;
 
         let defaultOption = document.createElement("option");
-        defaultOption.text = "Choose a form";
+        defaultOption.text = "Choose a form or create  new form";
 
         dropdown.appendChild(defaultOption);
         dropdown.selectedIndex = 0;
@@ -121,12 +121,16 @@
           if (myform !== null && typeof myform !== "undefined") {
             parent.removeChild(myform);
           }
-
+          if (e.target.selectedIndex === 0) {
+            document.getElementById("configure").value = "";
+            return;
+          }
           let newform = document.createElement("my-form");
           let newconfig = formservice + "/" + this.value;
           newform.config = newconfig;
 
           parent.appendChild(newform);
+
           //let config = document
           //  .getElementsByTagName("my-form")[0]
           //  .getAttribute("config");
@@ -153,6 +157,11 @@
             try {
               let formConfig = JSON.parse(evt.target.value);
               let formElement = document.getElementsByTagName("my-form")[0];
+              if (formElement === null || typeof formElement === "undefined") {
+                formElement = document.createElement("my-form");
+                let parent = document.getElementById("render");
+                parent.appendChild(formElement);
+              }
               formElement.setAttribute("name", formConfig.name);
               formElement.setAttribute("submit", formConfig.submit);
               formElement.setAttribute("action", formConfig.action);
