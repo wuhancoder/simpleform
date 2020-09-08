@@ -136,6 +136,7 @@ export default class MyInput extends MyComponent {
   }
   validate() {
     //this.inputEl = this.shadowRoot.querySelector("input");
+    //if (this.inputEl.value == "") this.inputEl.value = null;
     this.value = this.inputEl.value;
     var event = new Event("input", {
       bubbles: true,
@@ -148,10 +149,19 @@ export default class MyInput extends MyComponent {
 
     if (!this.inputEl.checkValidity()) {
       console.log(this.inputEl.validationMessage);
+      //let validationMessage = this.inputEl.validationMessage;
+      if (
+        typeof this.validationMessage !== "undefined" &&
+        this.validationMessage !== "undefined"
+      )
+        this.inputEl.setCustomValidity(this.validationMessage);
+
       this.shadowRoot.querySelector(
         ".errors"
       ).textContent = this.inputEl.validationMessage;
+      this.inputEl.setCustomValidity("");
     } else {
+      this.inputEl.setCustomValidity("");
       this.resetErrors();
     }
   }

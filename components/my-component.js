@@ -31,6 +31,9 @@ export default class MyComponent extends LitElement {
       helptext: {
         type: String,
       },
+      validationMessage: {
+        type: String,
+      },
       condition: {
         type: String,
       },

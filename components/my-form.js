@@ -323,6 +323,7 @@ export default class MyForm extends LitElement {
           type="${i.type}"
           validations="${JSON.stringify(i.validations)}"
           helptext="${i.helptext}"
+          validationMessage="${i.validationMessage}"
           condition="${i.condition}"
         ></my-input>
       </div>`;
@@ -333,6 +334,7 @@ export default class MyForm extends LitElement {
           label="${i.label}"
           type="${i.type}"
           helptext="${i.helptext}"
+          validationMessage="${i.validationMessage}"
           condition="${i.condition}"
           ?multiple="${i.multiple !== "undefined" && i.multiple === "true"}"
         ></my-file>
@@ -345,6 +347,7 @@ export default class MyForm extends LitElement {
             label="${i.label}"
             type="${i.type}"
             helptext="${i.helptext}"
+            validationMessage="${i.validationMessage}"
             condition="${i.condition}"
             datasets="${JSON.stringify(i.options)}"
           ></my-select>
