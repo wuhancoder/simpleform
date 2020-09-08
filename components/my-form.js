@@ -139,6 +139,10 @@ export default class MyForm extends LitElement {
 
   async readConfig() {
     console.log("retrieving config... ");
+    if (typeof this.config === "undefined" || this.config === null) {
+      console.log("no config is defined");
+      return;
+    }
     fetch(this.config)
       .then((res) => res.json())
       .then((data) => {
