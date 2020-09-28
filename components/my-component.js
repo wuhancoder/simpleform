@@ -40,6 +40,12 @@ export default class MyComponent extends LitElement {
       value: {
         type: String,
       },
+      displaysize: {
+        type: String,
+      },
+      minimumsize: {
+        type: String,
+      },
     };
   }
 }

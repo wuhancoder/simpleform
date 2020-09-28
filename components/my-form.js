@@ -7,10 +7,14 @@ export default class MyForm extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: flex;
         font: var(--sf-button-font, 12px Roboto, sans-serif);
         text-align: left;
         background: var(--sf-background, white);
+      }
+
+      .formcontainer {
+        display: flex;
+        flex-wrap: wrap;
       }
 
       .row {
@@ -23,6 +27,7 @@ export default class MyForm extends LitElement {
       .formtitle {
         font-size: var(--sf-form-title-font-size, 2.5rem);
         display: var(--sf-form-title-display, block);
+        flex-basis: 100%;
       }
 
       .hide {
@@ -313,8 +318,15 @@ export default class MyForm extends LitElement {
 
   renderInput(i) {
     console.log("trying to render element... ");
+    let displaysize = "100%";
+    let minimumsize = "auto";
+    if (typeof i.displaysize !== "undefined") displaysize = i.displaysize;
+    if (typeof i.minimumsize !== "undefined") minimumsize = i.minimumsize;
     if (i.input === "text")
-      return html` <div class="row">
+      return html` <div
+        class="row"
+        style="width:${displaysize};min-width:${minimumsize}"
+      >
         <my-input
           name="${i.name}"
           label="${i.label}"
@@ -328,7 +340,10 @@ export default class MyForm extends LitElement {
         ></my-input>
       </div>`;
     if (i.input === "file")
-      return html` <div class="row">
+      return html` <div
+        class="row"
+        style="width:${displaysize};min-width:${minimumsize}"
+      >
         <my-file
           name="${i.name}"
           label="${i.label}"
@@ -341,7 +356,7 @@ export default class MyForm extends LitElement {
       </div>`;
     if (i.input === "select") {
       return html`
-        <div class="row">
+        <div class="row" style="width:${displaysize};min-width:${minimumsize}">
           <my-select
             name="${i.name}"
             label="${i.label}"
@@ -416,12 +431,14 @@ export default class MyForm extends LitElement {
         name="${this.name ? this.name : ""}"
         action="${this.action ? this.action : ""}"
       >
-        <h1 class="formtitle">${this.name}</h1>
-        ${this.fieldsArray ? this.fieldsArray.map(this.renderInput) : ""}
-        <div class="row">
-          <button type="submit" @click="${this.submitForm}" class="btn">
-            ${this.submit}
-          </button>
+        <div class="formcontainer">
+          <h1 class="formtitle">${this.name}</h1>
+          ${this.fieldsArray ? this.fieldsArray.map(this.renderInput) : ""}
+          <div class="row">
+            <button type="submit" @click="${this.submitForm}" class="btn">
+              ${this.submit}
+            </button>
+          </div>
         </div>
       </form>
     `;
