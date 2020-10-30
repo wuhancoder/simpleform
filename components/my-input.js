@@ -76,6 +76,14 @@ export default class MyInput extends MyComponent {
         content: "✓";
         color: green;
       }
+      input:focus {
+        border-color: var(--sf-input-border-color-focus, rgb(59, 59, 59));
+        background-color: var(--sf-input-background-focus, gray);
+        color: var(--sf-input-color-focus, white);
+      }
+      input:focus::-webkit-input-placeholder {
+        color: var(--sf-input-background-focus, gray);
+      }
     `;
   }
 

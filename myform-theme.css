@@ -17,6 +17,9 @@ html {
   --sf-input-border-radius: 4px;
   --sf-input-border-width: 1px;
   --sf-input-border-style: solid;
+  --sf-input-border-color-focus: rgb(59, 59, 59);
+  --sft-input-background-focus: gray;
+  --sf-input-color-focus: white;
 
   /* --sf-label-background: #44c8f5; */
   --sf-label-display: block;

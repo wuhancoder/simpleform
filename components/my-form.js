@@ -89,6 +89,11 @@ export default class MyForm extends LitElement {
         type: String,
         reflect: true,
       },
+      accessToken: {
+        type: String,
+        reflect: true,
+        attribute: false,
+      },
     };
   }
 
@@ -105,6 +110,7 @@ export default class MyForm extends LitElement {
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
     console.log("firstupdated ");
+    this.readConfig();
     //console.log("calling readConfig ....");
     //this.readConfig().then((r) => {
     //  console.log("config read resolved: " + r);
@@ -123,7 +129,7 @@ export default class MyForm extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     console.log("connected callbakc");
-    this.readConfig();
+    //this.readConfig();
   }
 
   updated(changedProperties) {
@@ -148,7 +154,16 @@ export default class MyForm extends LitElement {
       console.log("no config is defined");
       return;
     }
-    fetch(this.config)
+    let headers = {};
+    if (
+      typeof this.accessToken !== "undefined" &&
+      this.accessToken !== "undefined"
+    )
+      headers["Authorization"] = "Bearer " + this.accessToken;
+    fetch(this.config, {
+      method: "GET",
+      headers,
+    })
       .then((res) => res.json())
       .then((data) => {
         this.submit = data.submit;
@@ -400,13 +415,15 @@ export default class MyForm extends LitElement {
         formdata.append(el.name, el.inputEl.value);
       else formdata.append(el.name, el.value);
     });
-
+    let headers = {};
+    if (
+      typeof this.accessToken !== "undefined" &&
+      this.accessToken !== "undefined"
+    )
+      headers["Authorization"] = "Bearer " + this.accessToken;
     fetch(this.action, {
       method: "POST", // or 'PUT'
-      //  headers: {
-      //   "Content-Type": "application/json",
-      //  },
-      //body: JSON.stringify(fieldValues),
+      headers,
       body: formdata,
     })
       //.then((response) => response.json())
