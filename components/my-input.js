@@ -111,7 +111,7 @@ export default class MyInput extends MyComponent {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
-    this.inputEl = this.shadowRoot.querySelector("input");
+    this.inputEl = this.shadowRoot.querySelector("input, textarea");
 
     this.addEventListener("blur", this.validate);
     this.addEventListener("keyup", this.validate);
@@ -190,13 +190,24 @@ export default class MyInput extends MyComponent {
             >`
           : html`<i class="material-icons icon">${this.icon}</i>`}
         <div>
-          <input
-            type="${this.type}"
-            id="${this.name}"
-            placeholder="${this.label}"
-            aria-label="label_${this.name}"
-            aria-describedby="desc_${this.name}"
-          />
+          ${this.type === "textarea"
+            ? html`
+                <textarea
+                  name="${this.name}"
+                  cols="${this.cols}"
+                  rows="${this.rows}"
+                  aria-label="label_${this.name}"
+                  aria-describedby="desc_${this.name}"
+                >
+                </textarea>
+              `
+            : html` <input
+                type="${this.type}"
+                id="${this.name}"
+                placeholder="${this.label}"
+                aria-label="label_${this.name}"
+                aria-describedby="desc_${this.name}"
+              />`}
           <span></span>
         </div>
       </div>

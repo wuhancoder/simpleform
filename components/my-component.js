@@ -46,6 +46,12 @@ export default class MyComponent extends LitElement {
       minimumsize: {
         type: String,
       },
+      cols: {
+        type: String,
+      },
+      rows: {
+        type: String,
+      },
     };
   }
 }

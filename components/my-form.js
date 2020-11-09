@@ -352,6 +352,8 @@ export default class MyForm extends LitElement {
           helptext="${i.helptext}"
           validationMessage="${i.validationMessage}"
           condition="${i.condition}"
+          cols="${i.cols}"
+          rows="${i.rows}"
         ></my-input>
       </div>`;
     if (i.input === "file")
