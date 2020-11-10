@@ -1,0 +1,95 @@
+<head>
+  <script src="index.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="myform-theme.css" />
+  <script src="https://alcdn.msauth.net/browser/2.1.0/js/msal-browser.js"></script>
+</head>
+<body>
+  <script language="javascript">
+    (function () {
+      const config = {
+        auth: {
+          clientId: "5342f32b-d781-40f1-8a21-915a9d416731",
+          authority:
+            "https://hennepinb2c.b2clogin.com/906d0d60-5362-4e64-82cd-e4068fad4978/b2c_1_Sign_In_Up_Default",
+          knownAuthorities: [
+            "https://hennepinb2c.b2clogin.com/906d0d60-5362-4e64-82cd-e4068fad4978/b2c_1_Sign_In_Up_Default",
+          ],
+        },
+
+        cache: {
+          cacheLocation: "localStorage", // This configures where your cache will be stored
+          storeAuthStateInCookie: false, // Set this to "true" to save cache in cookies to address trusted zones limitations in IE (see: https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/Known-issues-on-IE-and-Edge-Browser)
+        },
+      };
+
+      const loginRequest = {
+        scopes: ["openid"],
+      };
+
+      let username = "";
+
+      const myMsal = new msal.PublicClientApplication(config);
+
+      myMsal
+        .loginPopup(loginRequest)
+        .then(function (loginResponse) {
+          //login success
+
+          // In case multiple accounts exist, you can select
+          const currentAccounts = myMsal.getAllAccounts();
+
+          if (currentAccounts === null) {
+            // no accounts detected
+          } else if (currentAccounts.length > 1) {
+            // Add choose account code here
+          } else if (currentAccounts.length === 1) {
+            username = currentAccounts[0].username;
+            const accessTokenRequest = {
+              account: currentAccounts[0],
+              scopes: [
+                "https://hennepinb2c.b2clogin.com/906d0d60-5362-4e64-82cd-e4068fad4978/FormAPI.Users",
+              ],
+            };
+            myMsal
+              .acquireTokenSilent(accessTokenRequest)
+              .then(function (accessTokenResponse) {
+                // Acquire token silent success
+                // Call API with token
+                let accessToken = accessTokenResponse.accessToken;
+                Array.from(document.getElementsByTagName("my-form")).map(
+                  function (f) {
+                    f.accessToken = accessToken;
+                    f.readConfig();
+                  }
+                );
+                console.log("Access Toke:" + accessToken);
+              })
+              .catch(function (error) {
+                //Acquire token silent failure, and send an interactive request
+                if (error.errorMessage.indexOf("interaction_required") !== -1) {
+                  myMsal
+                    .acquireTokenPopup(accessTokenRequest)
+                    .then(function (accessTokenResponse) {
+                      // Acquire token interactive success
+                    })
+                    .catch(function (error) {
+                      // Acquire token interactive failure
+                      console.log(error);
+                    });
+                }
+                console.log(error);
+              });
+          }
+        })
+        .catch(function (error) {
+          //login failure
+          console.log(error);
+        });
+    })();
+  </script>
+  <my-form
+    config="https://stgformservice-hc-api.azurewebsites.net/formconfig/ord13"
+  >
+  </my-form>
+</body>
