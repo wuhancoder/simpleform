@@ -408,7 +408,9 @@ export default class MyForm extends LitElement {
 
   submitForm(e) {
     let allInputs = [
-      ...this.shadowRoot.querySelectorAll("my-input, my-select, my-file"),
+      ...this.shadowRoot.querySelectorAll(
+        "my-input, my-select, my-file, my-date"
+      ),
     ];
     let valid = allInputs.every((i) => {
       if (i.inputEl && typeof inputEL === "undefined") {

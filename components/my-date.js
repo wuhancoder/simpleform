@@ -104,6 +104,9 @@ export default class MyDate extends MyComponent {
     //this.dateFormat = "dd-Mon-yyyy";
   }
 
+  get value() {
+    return this.shadowRoot.querySelector("input").value;
+  }
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
     var foopicker = new FooPicker({
