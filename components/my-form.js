@@ -2,6 +2,7 @@ import { LitElement, css, html } from "lit-element";
 import { MyInput } from "./my-input.js";
 import { MySelect } from "./my-select.js";
 import { MyFile } from "./my-file.js";
+import { MyDate } from "./my-date.js";
 
 export default class MyForm extends LitElement {
   static get styles() {
@@ -256,7 +257,9 @@ export default class MyForm extends LitElement {
   redraw() {
     console.log("redraw");
     let allInputs = [
-      ...this.shadowRoot.querySelectorAll("my-input, my-select, my-file"),
+      ...this.shadowRoot.querySelectorAll(
+        "my-input, my-select, my-file, my-date"
+      ),
     ];
     allInputs.map((x) => {
       if (typeof x.condition !== "undefined" && x.condition !== "undefined") {
@@ -370,6 +373,21 @@ export default class MyForm extends LitElement {
           condition="${i.condition}"
           ?multiple="${i.multiple !== "undefined" && i.multiple === "true"}"
         ></my-file>
+      </div>`;
+    if (i.input === "date")
+      return html` <div
+        class="row"
+        style="width:${displaysize};min-width:${minimumsize}"
+      >
+        <my-date
+          name="${i.name}"
+          label="${i.label}"
+          type="${i.type}"
+          helptext="${i.helptext}"
+          validationMessage="${i.validationMessage}"
+          condition="${i.condition}"
+          dateformat="${i.dateformat}"
+        ></my-date>
       </div>`;
     if (i.input === "select") {
       return html`
